@@ -275,6 +275,9 @@ Try<MountTable> MountTable::read(const string& path)
 
 Try<FileSystemTable> FileSystemTable::read()
 {
+#ifdef ALPINE
+  return Try<FileSystemTable>::error("This stupid OS doesn't support fstab.");
+#else
   // Mutex for guarding calls into non-reentrant fstab functions. We
   // use a static local variable to avoid unused variable warnings.
   static std::mutex mutex;
@@ -310,6 +313,7 @@ Try<FileSystemTable> FileSystemTable::read()
   }
 
   return table;
+#endif
 }
 
 

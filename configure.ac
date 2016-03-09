@@ -231,6 +231,13 @@ AC_ARG_ENABLE([bundled-wheel],
                               PYTHONPATH]),
               [without_bundled_wheel=yes], [])
 
+AC_ARG_ENABLE([alpine],
+  [AS_HELP_STRING([--enable-alpine],
+  [enable alpine build])],
+  [use_alpine=$enableval],
+  [use_alpine=no])
+
+
 # This is used to make distcheck and python install work together. For more
 # information, see the comment above AM_DISTCHECK_CONFIGURE_FLAGS in
 # Makefile.am.
@@ -311,6 +318,11 @@ case "${target_os}" in
     AC_MSG_ERROR("Mesos is currently unsupported on your platform.")
 esac
 
+AS_CASE([x$use_alpine],
+  [xyes],[
+    LIBS="$LIBS -lfts"
+  ]
+)
 
 # Used for conditionally including source files.
 AM_CONDITIONAL([OS_LINUX], [test "x$OS_NAME" = "xlinux"])
@@ -566,6 +578,12 @@ AS_CASE($ax_cv_cxx_compiler_vendor,
     esac
   ], [
     AC_MSG_WARN([$ax_cv_cxx_compiler_vendor is an unsupported compiler])
+  ]
+)
+
+AS_CASE([x$use_alpine],
+  [xyes],[
+    AC_DEFINE([ALPINE], 1, [System build set to Alpine])
   ]
 )
 

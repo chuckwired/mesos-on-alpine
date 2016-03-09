@@ -1,0 +1,8 @@
+## RUN DOCKER --privileged
+##   example: docker run -t -i --privileged alpine /bin/sh
+## Then copy these 4 lines into your shell and hit enter:
+
+apk add -U wget
+wget --no-check-certificate https://raw.githubusercontent.com/jimfcarroll/mesos-on-alpine/alpine/alpine/build.sh
+chmod +x build.sh
+./build.sh

@@ -17,7 +17,9 @@
 #ifndef __FS_HPP__
 #define __FS_HPP__
 
+#ifndef ALPINE
 #include <fstab.h>
+#endif
 #include <mntent.h>
 
 #include <sys/mount.h>
